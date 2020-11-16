@@ -1,3 +1,4 @@
+import opensimplex.OpenSimplex2S
 import org.openrndr.application
 import org.openrndr.color.ColorRGBa
 import org.openrndr.draw.loadFont
@@ -15,6 +16,7 @@ fun main() = application {
     program {
         val image = loadImage("data/images/pm5544.png")
         val font = loadFont("data/fonts/default.otf", 64.0)
+        val simplex = OpenSimplex2S(12L)//opensimplex.OpenSimplex2S(12)
 
         extend {
             drawer.drawStyle.colorMatrix = tint(ColorRGBa.WHITE.shade(0.2))

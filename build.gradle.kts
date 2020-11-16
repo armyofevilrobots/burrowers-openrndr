@@ -4,10 +4,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 
 /* the name of this project, default is the template version but you are free to change these */
-group = "org.openrndr.template"
+group = "com.armyofevilrobots.openrndr"
 version = "0.3.14"
 
-val applicationMainClass = "TemplateProgramKt"
+val applicationMainClass = "TemplateLiveProgramKt"
 
 /*  Which additional (ORX) libraries should be added to this project. */
 val orxFeatures = setOf(
@@ -47,6 +47,7 @@ val orxFeatures = setOf(
 //  "orx-temporal-blur",
 //  "orx-time-operators",
 //  "orx-kinect-v1",
+    "orx-video-profiles",
 
     "orx-panel"
 )
@@ -109,6 +110,7 @@ repositories {
         mavenLocal()
     }
     maven(url = "https://dl.bintray.com/openrndr/openrndr")
+    maven(url = "https://repo.spongepowered.org/maven/")
 }
 
 fun DependencyHandler.orx(module: String): Any {
@@ -145,6 +147,7 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core","1.3.9")
     implementation("io.github.microutils", "kotlin-logging","1.12.0")
+    implementation("org.spongepowered","noise","2.0.0-SNAPSHOT")
 
     when(applicationLogging) {
         Logging.NONE -> {
@@ -234,6 +237,11 @@ tasks.register<Zip>("jpackageZip") {
 }
 tasks.findByName("jpackageZip")?.dependsOn("jpackage")
 
+configure<SourceSetContainer> {
+    named("main") {
+        java.srcDir("src/main/kotlin")
+    }
+}
 runtime {
     jpackage {
         imageName = "openrndr-application"
